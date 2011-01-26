@@ -1,0 +1,4 @@
+--- !ruby/object:Player 
+hashed_password: 7ae034a2f3662f352041b70ff723142f3bb31fe9
+name: Proxima
+salt: xfVmQ28vzA

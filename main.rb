@@ -1,6 +1,9 @@
 require 'rubygems'
 require 'eventmachine'
 require 'connection_state'
+require 'player'
+
+$:.unshift File.join( %w{ /races . } )
 
 class MudServer < EM::Connection
 
@@ -8,7 +11,6 @@ class MudServer < EM::Connection
 
   attr_accessor :player
   attr_accessor :conn_state
-  attr_accessor :username
 
   @@connections = []
 
@@ -50,12 +52,18 @@ class MudServer < EM::Connection
 
     case @conn_state
       when ConnectionState::CONNECTED then
-        filename = "./data/players/#{data.downcase}.dat"
-        if File.exists?(filename)
-          @username = data.capitalize
+        if Player.pfile_exists?(data.downcase)
+          @player = Player.load(data)
           @conn_state = ConnectionState::ENTER_PASSWORD
         else
           send_data "That player does not exist.\r\n"
+        end
+      when ConnectionState::ENTER_PASSWORD then
+        if @player.check_password?(data)
+          @conn_state = ConnectionState::PLAYING
+          puts "-- #{@player.name} entered the game."
+        else
+          send_data "Invalid password.\r\n"
         end
     end
 
@@ -63,7 +71,7 @@ class MudServer < EM::Connection
   end
 
   def unbind
-    puts "-- #{@username} logged out."
+    puts "-- #{@player.name} logged out." if @player
     @@connections.delete(self) 
   end
 
