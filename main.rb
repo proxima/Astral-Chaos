@@ -22,7 +22,6 @@ class MudServer < EM::Connection
 
   def send_message(msg)
     send_data "#{msg}\r\n"
-    send_prompt
   end
 
   def post_init
@@ -89,6 +88,8 @@ class MudServer < EM::Connection
           @player = nil
           @conn_state = ConnectionState::CONNECTED  
         end
+      when ConnectionState::PLAYING then
+        MudServer.broadcast "#{@player.name}: #{data}"
     end
 
     send_prompt
