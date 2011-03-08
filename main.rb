@@ -40,6 +40,7 @@ class MudServer < EM::Connection
     case @conn_state
       when ConnectionState::CONNECTED then send_data "Please enter your username: "
       when ConnectionState::ENTER_PASSWORD then send_data "Enter your password: "
+      when ConnectionState::NEW_CHAR_PASSWORD then send_data "Select a password (>= 6 characters): "
       when ConnectionState::CONFIRM_PASSWORD then send_data "Confirm your password: "
       when ConnectionState::PLAYING then send_data "> "
     end
@@ -56,14 +57,37 @@ class MudServer < EM::Connection
           @player = Player.load(data)
           @conn_state = ConnectionState::ENTER_PASSWORD
         else
-          send_data "That player does not exist.\r\n"
+          send_data "That player does not exist.  Creating a new character.\r\n"
+          @player = Player.new(data)
+          @conn_state = ConnectionState::NEW_CHAR_PASSWORD
         end
       when ConnectionState::ENTER_PASSWORD then
-        if @player.check_password?(data)
+        if @player and @player.check_password?(data)
           @conn_state = ConnectionState::PLAYING
           puts "-- #{@player.name} entered the game."
         else
           send_data "Invalid password.\r\n"
+          @player = nil
+          @conn_state = ConnectionState::CONNECTED
+        end
+      when ConnectionState::NEW_CHAR_PASSWORD
+        if data.length >= 6
+          @player.password = data
+          @conn_state = ConnectionState::CONFIRM_PASSWORD
+        else
+          send_data "Invalid password.\r\n"
+          @player = nil
+          @conn_state = ConnectionState::CONNECTED
+        end
+      when ConnectionState::CONFIRM_PASSWORD then
+        if @player.check_password?(data)
+          @player.save
+          puts "-- #{@player.name} entered the game."
+          @conn_state = ConnectionState::PLAYING
+        else
+          send_data "Bad confirmation.  Starting over.\r\n"
+          @player = nil
+          @conn_state = ConnectionState::CONNECTED  
         end
     end
 
