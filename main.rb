@@ -1,7 +1,7 @@
-require 'rubygems'
 require 'eventmachine'
-require 'connection_state'
-require 'player'
+
+require './connection_state'
+require './player'
 
 $:.unshift File.join( %w{ /races . } )
 
