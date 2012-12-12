@@ -6,7 +6,7 @@ class Race
   BASE_STAT = 20
 
   def initialize
-    @name = self.class.name
+    @name = self.class.name.to_sym
     @stats = {}
 
     ALL_STATS.each_pair {|k,v| @stats[k] = BASE_STAT}
