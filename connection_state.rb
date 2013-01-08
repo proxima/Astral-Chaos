@@ -1,4 +1,4 @@
-class ConnectionState
+module ConnectionState
   CONNECTED         = 0
   ENTER_PASSWORD    = 1
   NEW_CHAR_PASSWORD = 2

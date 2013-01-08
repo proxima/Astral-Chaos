@@ -1,9 +1,12 @@
 require 'eventmachine'
 
 require './connection_state'
+require './living'
 require './player'
 
 $:.unshift File.join( %w{ /races . } )
+
+HEARTBEAT_INTERVAL = 3 #seconds
 
 class MudServer < EM::Connection
 
@@ -104,4 +107,5 @@ end
 
 EM::run do 
   EM::start_server '0.0.0.0', 4000, MudServer
+  EM::add_periodic_timer(HEARTBEAT_INTERVAL) { Living::heartbeat }
 end
