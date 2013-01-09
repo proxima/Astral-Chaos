@@ -7,9 +7,14 @@ class PC
 end
 
 class NPC
+  include Living
+
   attr_accessor :tick_was_called;
 
-  include Living
+  def initialize
+    super
+    @tick_was_called = false
+  end
 
   def tick
     @tick_was_called = true
@@ -22,6 +27,8 @@ class TestLiving < Test::Unit::TestCase
     npc = NPC.new
     
     Living::heartbeat
+    puts "SIZE: #{Living::ALL_LIVINGS.size}"
+    p Living::ALL_LIVINGS
     assert_equal(Living::ALL_LIVINGS.size, 2)
  
     pc = nil

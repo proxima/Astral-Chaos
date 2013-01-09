@@ -1,10 +1,10 @@
 require 'eventmachine'
 
 require './connection_state'
-require './living'
+require './std/living'
 require './player'
 
-$:.unshift File.join( %w{ /races . } )
+$:.unshift File.join( %w{ . } )
 
 HEARTBEAT_INTERVAL = 3 #seconds
 
