@@ -2,14 +2,11 @@ require './std/living.rb'
 require 'ruby-prof'
 require 'test/unit'
 
-class PC
-  include Living
+class PC < Living
 end
 
-class NPC
-  include Living
-
-  attr_accessor :tick_was_called;
+class NPC < Living
+  attr_accessor :tick_was_called
 
   def initialize
     super
@@ -27,17 +24,17 @@ class TestLiving < Test::Unit::TestCase
     npc = NPC.new
     
     Living::heartbeat
-    assert_equal(Living::ALL_LIVINGS.size, 2)
+    assert_equal(Living::all.size, 2)
  
     pc = nil
     ObjectSpace.garbage_collect
     Living::heartbeat
-    assert_equal(Living::ALL_LIVINGS.size, 1)
+    assert_equal(Living::all.size, 1)
 
     npc = nil
     ObjectSpace.garbage_collect
     Living::heartbeat
-    assert_equal(Living::ALL_LIVINGS.size, 0)
+    assert_equal(Living::all.size, 0)
   end
 
   def test_living_times_are_updated

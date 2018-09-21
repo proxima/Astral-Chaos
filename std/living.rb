@@ -1,27 +1,17 @@
-require 'weakref'
-
-module Living
-  ALL_LIVINGS = []
+class Living
+  def self.all
+    ObjectSpace.each_object(self).to_a
+  end
 
   attr_accessor :last_heartbeat
 
   def self.heartbeat
-    start = 0
-    finish = ALL_LIVINGS.size
-      
-    while start < finish do
-      begin
-        ALL_LIVINGS[start].heartbeat
-        start = start + 1
-      rescue WeakRef::RefError
-        ALL_LIVINGS.delete_at(start)
-        finish = finish - 1
-      end
+    Living::all.each do |liv|
+      liv.heartbeat
     end
   end
 
   def initialize
-    ALL_LIVINGS << WeakRef.new(self)
   end
 
   def heartbeat
