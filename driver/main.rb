@@ -1,12 +1,12 @@
 require 'eventmachine'
 
 require './connection_state'
-require './std/living'
 require './player'
+require '../lib/living'
 
 $:.unshift File.join( %w{ . } )
 
-HEARTBEAT_INTERVAL = 3 #seconds
+HEARTBEAT_INTERVAL = 1
 
 class MudServer < EM::Connection
 

@@ -1,5 +1,5 @@
-require './std/races/human.rb'
-require './std/race.rb'
+require './lib/races/human.rb'
+require './lib/race.rb'
 require 'test/unit'
 
 class TestRaceInheritance < Test::Unit::TestCase

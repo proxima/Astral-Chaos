@@ -3,12 +3,14 @@ class Living
     ObjectSpace.each_object(self).to_a
   end
 
+  def self.size
+    return all.size
+  end
+
   attr_accessor :last_heartbeat
 
   def self.heartbeat
-    Living::all.each do |liv|
-      liv.heartbeat
-    end
+    Living::all.map(&:heartbeat)
   end
 
   def initialize
@@ -16,7 +18,7 @@ class Living
 
   def heartbeat
     @last_heartbeat = Time.now
-    tick()
+    tick
   end
 
   def tick
