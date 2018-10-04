@@ -8,6 +8,7 @@ class Player
 
   def initialize(name)
     @name = name
+    @salt = nil
   end
 
   def password=(pass)
@@ -21,7 +22,11 @@ class Player
 
   def self.pfile_exists?(name)
     filename = Player.get_filename(name)
-    return File.exists?(filename)
+    return File.exist?(filename)
+  end
+
+  def self.rm!(name)
+    return File.delete(get_filename(name))
   end
 
   def save
