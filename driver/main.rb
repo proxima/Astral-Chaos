@@ -1,8 +1,8 @@
 require 'eventmachine'
 
-require './connection_state'
-require './player'
-require '../lib/living'
+require './driver/connection_state'
+require './driver/player'
+require './lib/std/living'
 
 $:.unshift File.join( %w{ . } )
 

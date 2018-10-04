@@ -20,7 +20,7 @@ class Player
   end
 
   def self.pfile_exists?(name)
-    filename = "./data/players/#{name.downcase}.dat"
+    filename = Player.get_filename(name)
     return File.exists?(filename)
   end
 

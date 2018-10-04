@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'race')
+require("./lib/std/race")
 
 class Human < Race
 end

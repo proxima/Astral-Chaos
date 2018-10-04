@@ -1,4 +1,4 @@
-require './lib/living.rb'
+require './lib/std/living.rb'
 require 'ruby-prof'
 require 'test/unit'
 
@@ -43,8 +43,6 @@ class TestLiving < Test::Unit::TestCase
     Living::heartbeat
     t1 = pc.last_heartbeat
     
-    sleep(1)
-
     Living::heartbeat
     t2 = pc.last_heartbeat
   
@@ -56,16 +54,5 @@ class TestLiving < Test::Unit::TestCase
     Living::heartbeat
 
     assert_equal(npc.tick_was_called, true)
-  end
-
-  def test_tick_performance
-    npcs = []
-    5000.times { npcs << NPC.new }
-
-    RubyProf.start
-    Living::heartbeat
-    result = RubyProf.stop
-    printer = RubyProf::FlatPrinter.new(result)
-    printer.print(STDOUT)
   end
 end
