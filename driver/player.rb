@@ -4,7 +4,6 @@ require 'yaml'
 class Player
 
   attr_accessor :name, :hashed_password, :salt
-  attr_accessor :race
 
   def initialize(name)
     @name = name
