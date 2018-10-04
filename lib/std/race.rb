@@ -1,15 +1,11 @@
-class Race
-  attr_accessor :name
-  attr_accessor :stats
+require './lib/std/stats'
 
-  ALL_STATS = { :str => "Strength", :dex => "Dexterity", :wis => "Wisdom", :int => "Intelligence", :con => "Constitution" }
-  BASE_STAT = 20
+class Race
+  attr_accessor :name, :stats
 
   def initialize
     @name = self.class.name.to_sym
-    @stats = {}
-
-    ALL_STATS.each_pair {|k,v| @stats[k] = BASE_STAT}
+    @stats = Stats::ALL_STATS.keys.map{ |k| [k, Stats::BASE_STAT]}.to_h
   end
 
   def self.get_instance(name)

@@ -1,4 +1,4 @@
-require("./lib/std/race")
+require './lib/std/race'
 
 class Human < Race
 end
