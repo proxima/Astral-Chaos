@@ -9,10 +9,6 @@ class Living
 
   attr_accessor :last_heartbeat
 
-  def self.heartbeat
-    Living::all.map(&:heartbeat)
-  end
-
   def initialize
   end
 

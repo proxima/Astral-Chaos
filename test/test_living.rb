@@ -19,31 +19,14 @@ class NPC < Living
 end
 
 class TestLiving < Test::Unit::TestCase
-  def test_living_garbage_collection
-    pc = PC.new
-    npc = NPC.new
-    
-    Living::heartbeat
-    assert_equal(Living::all.size, 2)
- 
-    pc = nil
-    ObjectSpace.garbage_collect
-    Living::heartbeat
-    assert_equal(Living::all.size, 1)
-
-    npc = nil
-    ObjectSpace.garbage_collect
-    Living::heartbeat
-    assert_equal(Living::all.size, 0)
-  end
-
   def test_living_times_are_updated
     pc = PC.new
     
-    Living::heartbeat
+    pc.heartbeat
     t1 = pc.last_heartbeat
-    
-    Living::heartbeat
+
+    sleep(1)
+    pc.heartbeat
     t2 = pc.last_heartbeat
   
     assert_operator t1, :<, t2
@@ -51,7 +34,7 @@ class TestLiving < Test::Unit::TestCase
 
   def test_tick
     npc = NPC.new
-    Living::heartbeat
+    npc.heartbeat
 
     assert_equal(npc.tick_was_called, true)
   end
