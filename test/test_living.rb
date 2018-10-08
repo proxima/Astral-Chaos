@@ -25,7 +25,7 @@ class TestLiving < Test::Unit::TestCase
     pc.heartbeat
     t1 = pc.last_heartbeat
 
-    sleep(1)
+    sleep(0.001)
     pc.heartbeat
     t2 = pc.last_heartbeat
   
