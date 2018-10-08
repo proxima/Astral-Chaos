@@ -18,7 +18,7 @@ class TestEfun < Test::Unit::TestCase
 
   def test_find_object
     assert_equal(self, find_object(object_name(self)))
-#    assert_nil(find_object('asdf#12345'))
+    assert_nil(find_object('asdf#12345'))
   end
 
   def test_efuns_accessible
