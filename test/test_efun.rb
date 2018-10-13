@@ -1,29 +1,25 @@
 require 'test/unit'
-require './driver/bootstrap/efun'
+require './driver/std/efun'
+require './driver/std/mud_object'
 
-class C
-end
-
-module M
+class C < MudObject
 end
 
 class TestEfun < Test::Unit::TestCase
   def test_base_name
-    assert_equal(base_name(self), self.class.name)
+    c = C.new
+    assert_equal(Efun::base_name(c), c.class.name)
   end
 
   def test_object_name
-    assert_match(/.+#\d+\z/, object_name(self))
+    c = C.new
+    assert_match(/.+#\d+\z/, Efun::object_name(c))
   end
 
   def test_find_object
-    assert_equal(self, find_object(object_name(self)))
-    assert_nil(find_object('asdf#12345'))
-  end
-
-  def test_efuns_accessible
-    Efun.private_instance_methods.each { |m| assert_include(C.private_methods, m) }
-    Efun.private_instance_methods.each { |m| assert_include(C.private_instance_methods, m) }
-    Efun.private_instance_methods.each { |m| assert_include(M.private_methods, m) }
+    c = C.new
+    assert(Efun::find_object(Efun::object_name(c)).equal?(c))
+    assert_equal(c, Efun::find_object(Efun::object_name(c)))
+    assert_nil(Efun::find_object('asdf#12345'))
   end
 end

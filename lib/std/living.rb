@@ -1,6 +1,8 @@
+require './driver/std/mud_object'
+
 class Living
   def self.all
-    ObjectSpace.each_object(self).to_a
+    MudObject.values.collect { |ob| ob.is_a?(self) }
   end
 
   def self.size

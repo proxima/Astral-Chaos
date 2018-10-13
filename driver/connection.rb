@@ -1,13 +1,9 @@
 require './driver/connection_state'
-require './driver/player'
+require './driver/std/player'
 
 class MudServer < EM::Connection
 
   include EM::Protocols::LineText2
-
-  def receive_binary_data(data)
-    puts 'Received binary data!'
-  end
 
   @@connections = []
 

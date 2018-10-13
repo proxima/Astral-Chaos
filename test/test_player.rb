@@ -1,4 +1,4 @@
-require './driver/player.rb'
+require './driver/std/player'
 require 'securerandom'
 require 'test/unit'
 

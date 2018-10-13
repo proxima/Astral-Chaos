@@ -1,4 +1,4 @@
-require './lib/std/living.rb'
+require './lib/std/living'
 require 'ruby-prof'
 require 'test/unit'
 
