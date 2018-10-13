@@ -1,8 +1,8 @@
-require './driver/std/mud_object'
+require './driver/std/base'
 
 class Living
   def self.all
-    MudObject.values.collect { |ob| ob.is_a?(self) }
+    Mud::Object.values.collect { |ob| ob.is_a?(self) }
   end
 
   def self.size

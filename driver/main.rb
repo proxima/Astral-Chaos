@@ -3,8 +3,6 @@ require 'eventmachine'
 require './driver/connection'
 require './lib/std/living'
 
-Dir['./driver/bootstrap/*.rb'].each { |f| require f }
-
 HEARTBEAT_INTERVAL = 1
 
 EM::run do 
