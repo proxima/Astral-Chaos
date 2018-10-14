@@ -3,23 +3,22 @@ require './lib/std/living'
 require 'ruby-prof'
 require 'test/unit'
 
-class PC < Living
-end
-
-class NPC < Living
-  attr_accessor :tick_was_called
-
-  def initialize
-    super
-    @tick_was_called = false
-  end
-
-  def tick
-    @tick_was_called = true
-  end
-end
-
 class TestLiving < Test::Unit::TestCase
+  class PC < Living
+  end
+
+  class NPC < Living
+    attr_accessor :tick_was_called
+
+    def initialize
+      super
+      @tick_was_called = false
+    end
+
+    def tick
+      @tick_was_called = true
+    end
+  end
 
   def test_livings_respond_to_heartbeat
     pc = PC.new

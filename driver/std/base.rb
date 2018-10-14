@@ -1,3 +1,4 @@
+require 'eventmachine'
 require 'weakref'
 
 module Mud
@@ -8,6 +9,21 @@ module Mud
 
     def self.object_name(ob)
       ob.class.name + '#' + ob.object_id.to_s
+    end
+
+    def self.call_out(*args, &block)
+      return EventMachine::Timer.new(args[0]) do
+        begin
+          if block
+            block.call
+          else
+            args[1].send(args[2], *args[3..-1])
+          end
+        rescue => exception
+          puts exception
+          puts exception.backtrace
+        end
+      end
     end
   end
 

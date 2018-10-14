@@ -3,10 +3,10 @@ require 'weakref'
 
 require './driver/std/base'
 
-class C < Mud::Object
-end
-
 class TestEfun < Test::Unit::TestCase
+  class C < Mud::Object
+  end
+
   def test_base_name
     c = C.new
     assert_equal(Mud::Efun::base_name(c), c.class.name)
