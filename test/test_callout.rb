@@ -12,14 +12,21 @@ class TestCallout < Test::Unit::TestCase
     end
 
     attr_accessor :args
+    attr_accessor :arg1, :arg2
 
     def initialize
       super
       Mud::Efun::call_out(0.1, self, :set_called, C.MAGIC_NUMBER, C.MAGIC_NUMBER)
+      Mud::Efun::call_out(0.1, self, :set_called2, C.MAGIC_NUMBER, C.MAGIC_NUMBER)
     end
 
     def set_called(*args)
       @args = args
+    end
+
+    def set_called2(arg1, arg2)
+      @arg1 = arg1
+      @arg2 = arg2
     end
   end
 
@@ -50,6 +57,8 @@ class TestCallout < Test::Unit::TestCase
       assert_equal(c.args.size, 2)
       assert_equal(c.args[0], C.MAGIC_NUMBER)
       assert_equal(c.args[1], C.MAGIC_NUMBER)
+      assert_equal(c.arg1, C.MAGIC_NUMBER)
+      assert_equal(c.arg2, C.MAGIC_NUMBER)
     end
 
     sleep 0.3
