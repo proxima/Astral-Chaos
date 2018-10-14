@@ -34,7 +34,7 @@ module Mud
 
     def self.values
       @@objects.select! { |k,v| v.weakref_alive? }
-      @@objects.values
+      @@objects.values.map{ |k| k.__getobj__ }
     end
 
     private

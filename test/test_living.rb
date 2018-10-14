@@ -1,3 +1,4 @@
+require './driver/std/base'
 require './lib/std/living'
 require 'ruby-prof'
 require 'test/unit'
@@ -19,17 +20,17 @@ class NPC < Living
 end
 
 class TestLiving < Test::Unit::TestCase
-  def test_living_times_are_updated
-    pc = PC.new
-    
-    pc.heartbeat
-    t1 = pc.last_heartbeat
 
-    sleep(0.001)
-    pc.heartbeat
-    t2 = pc.last_heartbeat
-  
-    assert_operator t1, :<, t2
+  def test_livings_respond_to_heartbeat
+    pc = PC.new
+    assert(pc.respond_to?(:heartbeat))
+    npc = NPC.new
+    assert(npc.respond_to?(:heartbeat))
+  end
+
+  def test_livings_become_mud_objects
+    pc = PC.new
+    assert(Mud::Object.values.include?(pc))
   end
 
   def test_tick
