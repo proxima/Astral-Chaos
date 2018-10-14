@@ -19,9 +19,9 @@ module Mud
           else
             args[1].send(args[2], *args[3..-1])
           end
-        rescue => exception
-          puts exception
-          puts exception.backtrace
+        rescue => e
+          puts "Error in call_out: #{e.message} #{e.inspect}"
+          e.backtrace.each { |frame| puts "#{frame}" }
         end
       end
     end

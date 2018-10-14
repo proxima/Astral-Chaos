@@ -24,7 +24,12 @@ EM::run do
       if livings.empty?
         :stop
       else
-        livings.shift.heartbeat
+        begin
+          livings.shift.heartbeat
+        rescue => e
+          puts "Error in heartbeat: #{e.message} #{e.inspect}"
+          e.backtrace.each { |frame| puts "#{frame}" }
+        end
       end
     end
   end
