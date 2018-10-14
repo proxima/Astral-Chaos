@@ -16,12 +16,8 @@ class MudServer < EM::Connection
 
   def self.broadcast(msg, except = nil)
     @@connections.each do |con|
-      con.send_message("#{msg}") if con.logged_in? and con != except
+      con.send_data(msg) if con.logged_in? and con != except
     end
-  end
-
-  def send_message(msg)
-    send_data "#{msg}\r\n"
   end
 
   def post_init
@@ -63,6 +59,7 @@ class MudServer < EM::Connection
       when ConnectionState::ENTER_PASSWORD then
         if @player and @player.check_password?(data)
           @conn_state = ConnectionState::PLAYING
+          @player.connection = self
           puts "-- #{@player.name} entered the game."
         else
           send_data "Invalid password.\r\n"
@@ -81,6 +78,7 @@ class MudServer < EM::Connection
       when ConnectionState::CONFIRM_PASSWORD then
         if @player.check_password?(data)
           @player.save
+          @player.connection = self
           puts "-- #{@player.name} entered the game."
           @conn_state = ConnectionState::PLAYING
         else
@@ -89,7 +87,7 @@ class MudServer < EM::Connection
           @conn_state = ConnectionState::CONNECTED
         end
       when ConnectionState::PLAYING then
-        MudServer.broadcast "#{@player.name}: #{data}"
+        MudServer.broadcast "#{@player.name}: #{data}\r\n"
     end
 
     send_prompt

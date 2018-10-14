@@ -25,6 +25,10 @@ module Mud
         end
       end
     end
+
+    def self.tell_object(ob, msg)
+      ob.catch_tell(msg) if ob.respond_to? :catch_tell
+    end
   end
 
   class Object

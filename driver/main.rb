@@ -8,6 +8,10 @@ HEARTBEAT_INTERVAL = 1
 EM::run do 
   EM::start_server '0.0.0.0', 4000, MudServer
 
+  EM::error_handler{ |e|
+    puts "Error raised during event loop: #{e.message}"
+  }
+
   EM::add_periodic_timer(HEARTBEAT_INTERVAL) do
     livings = Mud::Object.values.select { |ob| ob.respond_to? :heartbeat }
 

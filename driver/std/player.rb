@@ -3,6 +3,7 @@ require 'yaml'
 
 class Player
 
+  attr_accessor :connection
   attr_accessor :name, :hashed_password, :salt
 
   def initialize(name)
@@ -44,6 +45,10 @@ class Player
  
   def self.get_filename(name)
     "./data/players/#{name.downcase}.dat"
+  end
+
+  def catch_tell(msg)
+    @connection.send_data msg
   end
 
 protected

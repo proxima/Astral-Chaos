@@ -11,8 +11,4 @@ class Living < Mud::Object
 
   def tick
   end
-
-  def say_hi(*args)
-    puts "Hello, World!"
-  end
 end
