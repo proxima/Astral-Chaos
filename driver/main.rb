@@ -13,10 +13,6 @@ EM::run do
     e.backtrace.each { |frame| puts "#{frame}" }
   }
 
-  EM::add_periodic_timer(2) do
-    MudServer.broadcast("Teehee\r\n");
-  end
-
   EM::add_periodic_timer(HEARTBEAT_INTERVAL) do
     livings = Mud::Object.values.select { |ob| ob.respond_to? :heartbeat }
 
